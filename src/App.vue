@@ -1,30 +1,42 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+// import HelloWorld from './components/HelloWorld.vue'
+
+import { onMounted, inject } from "vue";
+import { useSocketIO } from "@hlf01/vue3-socket.io";
+const socketIO = useSocketIO();
+const socket = inject("socket");
+
+onMounted(() => {
+    socketIO.subscribe("connect", () => {
+        console.log("Socket connected:", socket.id);
+    });
+
+    // Custom event name
+    socketIO.subscribe("chat", (messages) => {
+        console.log("Received messages:", messages);
+    });
+});
+
+// All event listeners will be unsubscribed automatically once the component is unmounted
+// function unsubscribeEvent(eventName) {
+//     // Unsubscribe event for current instance
+//     socketIO.unsubscribe(eventName);
+// }
+
+function sendMessage(message) {
+    // Emit event
+    console.log('sendmessage', socket);
+    socket.emit("chat message", message);
+}
+
 </script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+<div>
+  <button @click="sendMessage('test')">Send message</button>
+  <!-- <HelloWorld msg="Vite + Vue" /> -->
+</div>
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
 </style>

@@ -58,12 +58,9 @@
   </head>
 
   <body>
-    <ul id="messages"></ul>
-    <form id="form" action="">
-      <input id="input" autocomplete="off" /><button>Send</button>
-    </form>
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+    <!-- <script>
       const socket = io();
 
       const form = document.getElementById("form");
@@ -84,6 +81,6 @@
         messages.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight);
       });
-    </script>
+    </script> -->
   </body>
 </html>
